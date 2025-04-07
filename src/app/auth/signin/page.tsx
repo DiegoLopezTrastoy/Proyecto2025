@@ -1,6 +1,7 @@
 "use client";
 
 import { signIn } from "next-auth/react";
+import Image from "next/image";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
@@ -33,7 +34,7 @@ export default function SignIn() {
           className="mt-5 group h-12 w-full px-6 border-2 border-gray-300 rounded-full transition duration-300 hover:border-blue-400 focus:bg-blue-50 active:bg-blue-100"
         >
           <div className="relative flex items-center space-x-4 justify-around">
-            <img
+            <Image
               src="https://www.svgrepo.com/show/475656/google-color.svg"
               className="absolute left-0 w-5"
               alt="google logo"

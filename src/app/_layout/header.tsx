@@ -1,12 +1,8 @@
 "use client";
 import * as React from "react";
-import { useRouter } from "next/navigation";
-import { Menubar } from "primereact/menubar";
 import Link from "next/link";
-import { useRef, useState } from "react";
-import { Menu } from "primereact/menu";
-import { useLocalStorage } from "primereact/hooks";
-import { signIn, signOut } from "next-auth/react";
+import { useRef } from "react";
+import { signOut } from "next-auth/react";
 import { Toggle } from "@/components/ui/toggle";
 import { Moon, SunIcon, MenuIcon, ShirtIcon } from "lucide-react";
 import { useTheme } from "next-themes";
@@ -21,93 +17,24 @@ import {
   NavigationMenuContent,
 } from "@/components/ui/navigation-menu";
 import { DialogTitle } from "@radix-ui/react-dialog";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { useSession } from "next-auth/react";
 
 export default function Header() {
-  const router = useRouter();
-  const { data: session, status } = useSession();
-  let user = session?.user;
+  const { data: session, /*status*/ } = useSession();
+  const user = session?.user;
 
-  const menu = useRef<Menu>(null);
   const toggle = useRef<HTMLButtonElement>(null);
   const moon = useRef<SVGSVGElement>(null);
   const sun = useRef<SVGSVGElement>(null);
   const { theme, setTheme } = useTheme();
 
   React.useEffect(() => {
-    theme === "light"
-      ? moon.current?.classList.add("hidden")
-      : sun.current?.classList.add("hidden");
-  }, []);
-
-  const items = [
-    {
-      label: "Inicio",
-      icon: "pi pi-fw pi-home",
-      command: () => router.push("/"),
-    },
-    {
-      label: "Dashboard",
-      icon: "pi pi-fw pi-chart-line",
-      command: () => router.push("/"),
-    },
-    {
-      label: "Chat IA",
-      icon: "pi pi-fw pi-microchip-ai",
-      command: () => router.push("/"),
-    },
-    {
-      label: "Chat con un profesional",
-      icon: "pi pi-fw pi-comments",
-      command: () => router.push("/"),
-    },
-  ];
-
-  const userItems = user
-    ? [
-        {
-          label: "Perfil",
-          icon: "pi pi-fw pi-user",
-          command: () => router.push("/profile"),
-        },
-        {
-          label: "Cerrar sesion",
-          icon: "pi pi-fw pi-power-off",
-          command: async () => {
-            signOut();
-          },
-        },
-      ]
-    : [
-        {
-          label: "Iniciar sesion",
-          icon: "pi pi-fw pi-user",
-          command: () => router.push("/auth/signin"),
-        },
-        {
-          label: "Prueba",
-          icon: "pi pi-fw pi-user",
-          command: () =>
-            signIn("credentials", {
-              redirectTo: "/",
-              username: "admin",
-              password: "admin",
-            }),
-        },
-        {
-          label: "Registrarse",
-          icon: "pi pi-fw pi-user-plus",
-          command: () => router.push("/register"),
-        },
-      ];
+    if (theme === "light") {
+      moon.current?.classList.add("hidden");
+    } else {
+      sun.current?.classList.add("hidden");
+    }
+  }, [theme]);
 
   return (
     <header className="flex h-20 w-full shrink-0 items-center px-4 md:px-6">
@@ -131,7 +58,7 @@ export default function Header() {
               Inicio
             </Link>
             <Link
-              href="#"
+              href="/game"
               className="flex w-full items-center py-2 text-lg font-semibold"
               prefetch={false}
             >
@@ -170,7 +97,7 @@ export default function Header() {
           </NavigationMenuLink>
           <NavigationMenuLink asChild>
             <Link
-              href="#"
+              href="/game"
               className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-gray-100/50 data-[state=open]:bg-gray-100/50 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50 dark:focus:bg-gray-800 dark:focus:text-gray-50 dark:data-[active]:bg-gray-800/50 dark:data-[state=open]:bg-gray-800/50"
               prefetch={false}
             >

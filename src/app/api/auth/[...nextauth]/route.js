@@ -52,6 +52,10 @@ const authOptions = {
       return session;
     },
     async redirect({ url, baseUrl }) {
+      if (url === baseUrl) {
+        return url;
+      }
+
       return baseUrl;
     }
   },
