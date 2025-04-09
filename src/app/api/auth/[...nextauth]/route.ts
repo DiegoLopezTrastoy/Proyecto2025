@@ -3,7 +3,6 @@ import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import DiscordProvider from "next-auth/providers/discord";
 import FacebookProvider from "next-auth/providers/facebook";
-import PinterestProvider from "next-auth/providers/pinterest";
 import TwitchProvider from "next-auth/providers/twitch";
 import TwitterProvider from "next-auth/providers/twitter";
 import { JWT } from "next-auth/jwt";
@@ -38,11 +37,6 @@ const handler = NextAuth({
     FacebookProvider({
       clientId: process.env.FACEBOOK_CLIENT_ID!,
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET!,
-    }),
-
-    PinterestProvider({
-      clientId: process.env.PINTEREST_CLIENT_ID!,
-      clientSecret: process.env.PINTEREST_CLIENT_SECRET!,
     }),
 
     TwitchProvider({
