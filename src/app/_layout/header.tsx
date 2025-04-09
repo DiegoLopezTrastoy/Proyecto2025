@@ -2,7 +2,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { useRef } from "react";
-import { signOut } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 import { Toggle } from "@/components/ui/toggle";
 import { Moon, SunIcon, MenuIcon } from "lucide-react";
 import { useTheme } from "next-themes";
@@ -177,8 +177,7 @@ export default function Header() {
           </NavigationMenu>
         ) : (
           <>
-            <Button variant="outline" asChild>
-              <Link href="/auth/signin">Sign in</Link>
+            <Button variant="outline" onClick={() => signIn()}>Sign in
             </Button>
             <Button>Sign Up</Button>
           </>

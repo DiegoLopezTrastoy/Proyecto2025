@@ -34,7 +34,7 @@ export default function Home() {
       className="*:*:border-1 *:*:border-white *:grid *:grid-cols-[0px_repeat(100,_1fr)_0px] *:*:w-24 *:*:h-24 w-screen h-[calc(100vh-80px)] overflow-hidden"
     >
       {user?.image ? (
-        <Image alt="jugador" ref={userImage} src={user.image} className="rounded-full w-20 h-20" />
+        <Image alt="jugador" width={80} height={80} ref={userImage} src={user.image} className="rounded-full w-20 h-20" />
       ) : (
         <>
           <UserCircle2 ref={userImage} className="w-20 h-20" />
