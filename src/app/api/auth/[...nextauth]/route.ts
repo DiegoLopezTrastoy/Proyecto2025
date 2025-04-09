@@ -1,4 +1,4 @@
-import NextAuth from "next-auth";
+import NextAuth, { Account, ISODateString } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import DiscordProvider from "next-auth/providers/discord";
@@ -6,6 +6,17 @@ import FacebookProvider from "next-auth/providers/facebook";
 import PinterestProvider from "next-auth/providers/pinterest";
 import TwitchProvider from "next-auth/providers/twitch";
 import TwitterProvider from "next-auth/providers/twitter";
+import { JWT } from "next-auth/jwt";
+
+export interface MySession {
+  user?: {
+    name?: string | null
+    email?: string | null
+    image?: string | null
+  }
+  accessToken?: string,
+  expires: ISODateString
+}
 
 const handler = NextAuth({
   providers: [
@@ -70,17 +81,19 @@ const handler = NextAuth({
   },
 
   callbacks: {
-    async jwt({ token, account }: any) {
+    async jwt({ token, account }: {token: JWT, account: Account | null}) {
       if (account) {
         token.accessToken = account.access_token;
       }
       return token;
     },
-    async session({ session, token }: any) {
-      session.accessToken = token.accessToken;
+    async session({ session, token }: {session: MySession, token: JWT}) {
+      if (token.accessToken) {
+        session.accessToken = token.accessToken as string;
+      }
       return session;
     },
-    async redirect({ url, baseUrl }: any) {
+    async redirect({ url, baseUrl }: {url: string, baseUrl: string}) {
       if (url === baseUrl) {
         return url;
       }
