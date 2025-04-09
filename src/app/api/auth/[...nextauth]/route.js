@@ -15,51 +15,61 @@ const authOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      redirectUri: process.env.REDIRECT_URI,
     }),
 
     GitHubProvider({
       clientId: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
+      redirectUri: process.env.REDIRECT_URI,
     }),
 
     DiscordProvider({
       clientId: process.env.DISCORD_CLIENT_ID,
       clientSecret: process.env.DISCORD_CLIENT_SECRET,
+      redirectUri: process.env.REDIRECT_URI,
     }),
 
     FacebookProvider({
       clientId: process.env.FACEBOOK_CLIENT_ID,
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+      redirectUri: process.env.REDIRECT_URI,
     }),
 
     LinkedInProvider({
       clientId: process.env.LINKEDIN_CLIENT_ID,
       clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
+      redirectUri: process.env.REDIRECT_URI,
     }),
 
     NetlifyProvider({
       clientId: process.env.NETLIFY_CLIENT_ID,
       clientSecret: process.env.NETLIFY_CLIENT_SECRET,
+      redirectUri: process.env.REDIRECT_URI,
     }),
 
     PinterestProvider({
       clientId: process.env.PINTEREST_CLIENT_ID,
       clientSecret: process.env.PINTEREST_CLIENT_SECRET,
+      redirectUri: process.env.REDIRECT_URI,
     }),
 
     RedditProvider({
       clientId: process.env.REDDIT_CLIENT_ID,
       clientSecret: process.env.REDDIT_CLIENT_SECRET,
+      redirectUri: process.env.REDIRECT_URI,
     }),
 
     TwitchProvider({
       clientId: process.env.TWITCH_CLIENT_ID,
       clientSecret: process.env.TWITCH_CLIENT_SECRET,
+      redirectUri: process.env.REDIRECT_URI,
     }),
 
     TwitterProvider({
       clientId: process.env.TWITTER_CLIENT_ID,
       clientSecret: process.env.TWITTER_CLIENT_SECRET,
+      redirectUri: process.env.REDIRECT_URI,
     }),
 
     // CredentialsProvider({
