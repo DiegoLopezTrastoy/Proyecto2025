@@ -3,10 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import DiscordProvider from "next-auth/providers/discord";
 import FacebookProvider from "next-auth/providers/facebook";
-import LinkedInProvider from "next-auth/providers/linkedin";
-import NetlifyProvider from "next-auth/providers/netlify";
 import PinterestProvider from "next-auth/providers/pinterest";
-import RedditProvider from "next-auth/providers/reddit";
 import TwitchProvider from "next-auth/providers/twitch";
 import TwitterProvider from "next-auth/providers/twitter";
 
