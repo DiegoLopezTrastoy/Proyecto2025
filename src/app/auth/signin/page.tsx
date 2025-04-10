@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { getCsrfToken } from "next-auth/react";
+import { getCsrfToken, signIn } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
@@ -101,35 +101,23 @@ export default function SignInPage() {
             </div>
 
             <div className="mt-6 grid grid-cols-3 gap-3">
-              <Button asChild className="w-full h-11">
-                <Link href={"/api/auth/signin/google"} prefetch={false}>
+              <Button className="w-full h-11 hover:cursor-pointer" onClick={() => signIn("google")}>
                   <FaGoogle />Google
-                </Link>
               </Button>
-              <Button asChild className="w-full h-11">
-                <Link href={"/api/auth/signin/github"} prefetch={false}>
+              <Button className="w-full h-11 hover:cursor-pointer">
                   <FaGithub />GitHub
-                </Link>
               </Button>
-              <Button asChild className="w-full h-11">
-                <Link href={"/api/auth/signin/discord"} prefetch={false}>
+              <Button className="w-full h-11 hover:cursor-pointer" onClick={() => signIn("discord")}>
                   <FaDiscord />Discord
-                </Link>
               </Button>
-              <Button asChild className="w-full h-11">
-                <Link href={"/api/auth/signin/twitch"} prefetch={false}>
+              <Button className="w-full h-11 hover:cursor-pointer" onClick={() => signIn("twitch")}>
                   <FaTwitch />Twitch
-                </Link>
               </Button>
-              <Button asChild className="w-full h-11">
-                <Link href={"/api/auth/signin/twitter"} prefetch={false}>
+              <Button className="w-full h-11 hover:cursor-pointer" onClick={() => signIn("twitter")}>
                   <FaTwitter />Twitter
-                </Link>
               </Button>
-              <Button asChild className="w-full h-11">
-                <Link href={"/api/auth/signin/gitlab"} prefetch={false}>
+              <Button className="w-full h-11 hover:cursor-pointer" onClick={() => signIn("gitlab")}>
                   <FaGitlab />GitLab
-                </Link>
               </Button>
             </div>
           </div>
