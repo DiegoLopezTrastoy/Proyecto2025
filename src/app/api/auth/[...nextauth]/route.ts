@@ -2,7 +2,7 @@ import NextAuth, { Account, ISODateString } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import DiscordProvider from "next-auth/providers/discord";
-import FacebookProvider from "next-auth/providers/facebook";
+import GitLabProvider from "next-auth/providers/gitlab";
 import TwitchProvider from "next-auth/providers/twitch";
 import TwitterProvider from "next-auth/providers/twitter";
 import { JWT } from "next-auth/jwt";
@@ -34,11 +34,6 @@ const handler = NextAuth({
       clientSecret: process.env.DISCORD_CLIENT_SECRET!,
     }),
 
-    FacebookProvider({
-      clientId: process.env.FACEBOOK_CLIENT_ID!,
-      clientSecret: process.env.FACEBOOK_CLIENT_SECRET!,
-    }),
-
     TwitchProvider({
       clientId: process.env.TWITCH_CLIENT_ID!,
       clientSecret: process.env.TWITCH_CLIENT_SECRET!,
@@ -47,6 +42,11 @@ const handler = NextAuth({
     TwitterProvider({
       clientId: process.env.TWITTER_CLIENT_ID!,
       clientSecret: process.env.TWITTER_CLIENT_SECRET!,
+    }),
+
+    GitLabProvider({
+      clientId: process.env.GITLAB_CLIENT_ID!,
+      clientSecret: process.env.GITLAB_CLIENT_SECRET!,
     }),
 
     // CredentialsProvider({
