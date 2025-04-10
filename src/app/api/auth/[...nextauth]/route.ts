@@ -5,6 +5,7 @@ import DiscordProvider from "next-auth/providers/discord";
 import GitLabProvider from "next-auth/providers/gitlab";
 import TwitchProvider from "next-auth/providers/twitch";
 import TwitterProvider from "next-auth/providers/twitter";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { JWT } from "next-auth/jwt";
 
 export interface MySession {
@@ -17,8 +18,23 @@ export interface MySession {
   expires: ISODateString
 }
 
-const handler = NextAuth({
+export const authOptions = {
   providers: [
+    CredentialsProvider({
+      name: 'Credentials',
+      credentials: {
+        email: { label: "email", type: "text" },
+        password: { label: "Password", type: "password" }
+      },
+      async authorize(credentials) {
+        const user = { id: '1', email: credentials?.email, password: credentials?.password };
+        if (user.email === 'admin@admin.com' && user.password === 'admin') {
+          return { id: user.id, name: user.email }; // Usuario válido
+        }
+        return null; // Usuario no válido
+      }
+    }),
+
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
@@ -48,30 +64,14 @@ const handler = NextAuth({
       clientId: process.env.GITLAB_CLIENT_ID!,
       clientSecret: process.env.GITLAB_CLIENT_SECRET!,
     }),
-
-    // CredentialsProvider({
-    //   name: 'Credentials',
-    //   credentials: {
-    //     username: { label: "Username", type: "text" },
-    //     password: { label: "Password", type: "password" }
-    //   },
-    //   async authorize(credentials) {
-    //     const user = { username: credentials.username, password: credentials.password };
-    //     if (user.username === 'admin' && user.password === 'admin') {
-    //       return user; // Usuario válido
-    //     }
-    //     return null; // Usuario no válido
-    //   }
-    // }),
   ],
 
   pages: {
-    // signIn: '/auth/signin',
-    // error: '/auth/error',
+    signIn: '/auth/signin',
   },
 
   session: {
-    strategy: "jwt",
+    strategy: "jwt" as const,
   },
 
   callbacks: {
@@ -97,6 +97,8 @@ const handler = NextAuth({
   },
 
   secret: process.env.NEXTAUTH_SECRET,
-});
+};
+
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
