@@ -100,23 +100,20 @@ export default function SignInPage() {
               </div>
             </div>
 
-            <div className="mt-6 grid grid-cols-3 gap-3">
-              <Button className="w-full h-11 hover:cursor-pointer" onClick={() => signIn("google")}>
+            <div className="mt-6 grid grid-cols-6 gap-3">
+              <Button className="w-full col-span-2 h-11 hover:cursor-pointer" onClick={() => signIn("google")}>
                   <FaGoogle />Google
               </Button>
-              <Button className="w-full h-11 hover:cursor-pointer">
+              <Button className="w-full col-span-2 h-11 hover:cursor-pointer" onClick={() => signIn("github")}>
                   <FaGithub />GitHub
               </Button>
-              <Button className="w-full h-11 hover:cursor-pointer" onClick={() => signIn("discord")}>
+              <Button className="w-full col-span-2 h-11 hover:cursor-pointer" onClick={() => signIn("discord")}>
                   <FaDiscord />Discord
               </Button>
-              <Button className="w-full h-11 hover:cursor-pointer" onClick={() => signIn("twitch")}>
-                  <FaTwitch />Twitch
-              </Button>
-              <Button className="w-full h-11 hover:cursor-pointer" onClick={() => signIn("twitter")}>
+              <Button className="w-full col-span-3 h-11 hover:cursor-pointer" onClick={() => signIn("twitter")}>
                   <FaTwitter />Twitter
               </Button>
-              <Button className="w-full h-11 hover:cursor-pointer" onClick={() => signIn("gitlab")}>
+              <Button className="w-full col-span-3 h-11 hover:cursor-pointer" onClick={() => signIn("gitlab")}>
                   <FaGitlab />GitLab
               </Button>
             </div>

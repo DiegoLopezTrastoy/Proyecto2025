@@ -50,11 +50,6 @@ const authOptions = {
       clientSecret: process.env.DISCORD_CLIENT_SECRET!,
     }),
 
-    TwitchProvider({
-      clientId: process.env.TWITCH_CLIENT_ID!,
-      clientSecret: process.env.TWITCH_CLIENT_SECRET!,
-    }),
-
     TwitterProvider({
       clientId: process.env.TWITTER_CLIENT_ID!,
       clientSecret: process.env.TWITTER_CLIENT_SECRET!,
