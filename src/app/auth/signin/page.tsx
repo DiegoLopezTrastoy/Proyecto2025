@@ -116,6 +116,60 @@ export default function SignInPage() {
                   <FaGitlab />GitLab
               </Button>
             </div>
+
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white dark:bg-neutral-800">O</span>
+              </div>
+            </div>
+
+            <div className="mt-6 grid grid-cols-6 gap-3">
+              <Button className="w-full col-span-3 h-11 hover:cursor-pointer" onClick={() => signIn("google")}>
+                  <FaGoogle />Google
+              </Button>
+              <Button className="w-full col-span-3 h-11 hover:cursor-pointer" onClick={() => signIn("github")}>
+                  <FaGithub />GitHub
+              </Button>
+              <Button className="w-full col-span-3 h-11 hover:cursor-pointer" onClick={() => signIn("discord")}>
+                  <FaDiscord />Discord
+              </Button>
+              <Button className="w-full col-span-3 h-11 hover:cursor-pointer" onClick={() => signIn("twitter")}>
+                  <FaTwitter />Twitter
+              </Button>
+              <Button className="w-full col-span-3 h-11 hover:cursor-pointer" onClick={() => signIn("gitlab")}>
+                  <FaGitlab />GitLab
+              </Button>
+            </div>
+
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white dark:bg-neutral-800">O</span>
+              </div>
+            </div>
+
+            <div className="mt-6 grid grid-cols-6 gap-3">
+              <Button className="w-full col-span-6 h-11 hover:cursor-pointer" onClick={() => signIn("google")}>
+                  <FaGoogle />Google
+              </Button>
+              <Button className="w-full col-span-6 h-11 hover:cursor-pointer" onClick={() => signIn("github")}>
+                  <FaGithub />GitHub
+              </Button>
+              <Button className="w-full col-span-6 h-11 hover:cursor-pointer" onClick={() => signIn("discord")}>
+                  <FaDiscord />Discord
+              </Button>
+              <Button className="w-full col-span-6 h-11 hover:cursor-pointer" onClick={() => signIn("twitter")}>
+                  <FaTwitter />Twitter
+              </Button>
+              <Button className="w-full col-span-6 h-11 hover:cursor-pointer" onClick={() => signIn("gitlab")}>
+                  <FaGitlab />GitLab
+              </Button>
+            </div>
           </div>
         </div>
       </div>
