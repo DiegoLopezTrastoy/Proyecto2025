@@ -28,7 +28,7 @@ export default function SignInPage() {
     <div className="flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 className="mt-6 text-center text-3xl font-extrabold">
-          Sign in to your account
+          Iniciar sesión
         </h2>
         <p className="mt-2 text-center text-sm max-w">
           Or
