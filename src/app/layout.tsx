@@ -34,7 +34,7 @@ export default function RootLayout({
         <title>Proyecto 2025</title>
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased max-h-screen`}
       >
         <SessionProvider>
           <ThemeProvider
