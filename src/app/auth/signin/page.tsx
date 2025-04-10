@@ -30,12 +30,12 @@ export default function SignInPage() {
           Iniciar sesión
         </h2>
         <p className="mt-2 text-center text-sm max-w">
-          Or
+          O
           <Link
             href={"/auth/signup"}
             className="font-medium text-blue-400 hover:text-blue-500 ml-1"
           >
-            Crear una cuenta
+            Crea una cuenta
           </Link>
         </p>
       </div>
@@ -43,7 +43,7 @@ export default function SignInPage() {
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-neutral-100 dark:bg-neutral-800 py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form className="space-y-6" action="/api/auth/callback/credentials" method="POST">
-            <input name="csrfToken" type="hidden" defaultValue={csrfToken!} />
+            <input name="csrfToken" type="hidden" value={csrfToken ?? ""} />
             <div>
               <Label htmlFor="email" className="block text-sm font-medium">
                 Correo electrónico

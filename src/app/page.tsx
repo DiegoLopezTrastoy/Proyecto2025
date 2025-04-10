@@ -1,105 +1,93 @@
 "use client";
 
-import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center p-8 pb-0 sm:pb-0 gap-16 sm:p-20 pt-0 sm:pt-0 font-[family-name:var(--font-geist-sans)]">
+      <main className="flex flex-col gap-[32px] row-start-2 items-center">
+          <h2 className="text-4xl font-bold mb-6">¿Cómo deseas jugar?</h2>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
+          <div className="space-x-4">
+            <Button className="px-6 py-3 text-lg">
+              Jugar en solitario
+            </Button>
+            <Button
+              variant="outline"
+              className="px-6 py-3 text-lg"
+            >
+              Jugar multijugador
+            </Button>
+          </div>
+
+        <section className="bg-neutral-100 dark:bg-neutral-800 w-full py-16 px-6 mb-12 rounded-lg shadow-lg">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl font-semibold mb-6">Acerca del juego</h2>
+            <p className="text-lg mb-4">
+              <strong>D&D Adventure</strong> es un juego de rol basado en el
+              sistema de Dungeons & Dragons donde puedes crear tu propio
+              personaje, explorar un mundo generado proceduralmente, y tomar
+              decisiones que afectarán el destino de tu aventura. Lanza dados,
+              elige tus habilidades y enfréntate a desafíos que pondrán a prueba
+              tu ingenio y valentía.
+            </p>
+            <p className="text-lg mb-4">
+              Puedes jugar de manera <strong>solitaria</strong> o unirte a otros
+              jugadores en el modo
+              <strong> multijugador</strong>, donde podrás formar alianzas,
+              explorar juntos y derrotar a temibles enemigos.
+            </p>
+          </div>
+        </section>
+
+        <section className="bg-gray-800 text-white w-full py-16 px-6 mb-12 rounded-lg shadow-lg">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl font-semibold mb-6">Elige tu clase</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="bg-purple-700 p-6 rounded-lg shadow-lg">
+                <h3 className="text-2xl font-bold mb-4">Guerrero</h3>
+                <p className="text-lg mb-4">
+                  Fuerte y resistente, el Guerrero es un experto en combate
+                  cuerpo a cuerpo y tiene una gran resistencia a los ataques
+                  enemigos. Ideal para los que prefieren un estilo de juego
+                  directo y de combate cercano.
+                </p>
+              </div>
+
+              <div className="bg-green-700 p-6 rounded-lg shadow-lg">
+                <h3 className="text-2xl font-bold mb-4">Mago</h3>
+                <p className="text-lg mb-4">
+                  El Mago domina las artes arcanas y lanza poderosos hechizos.
+                  Perfecto para quienes disfrutan de las tácticas a distancia y
+                  manipulan la magia para afectar el campo de batalla.
+                </p>
+              </div>
+
+              <div className="bg-blue-700 p-6 rounded-lg shadow-lg">
+                <h3 className="text-2xl font-bold mb-4">Ladrón</h3>
+                <p className="text-lg mb-4">
+                  Astuto y ágil, el Ladrón es experto en el sigilo y en el robo.
+                  Ideal para jugadores que prefieren el sigilo y la evasión, y
+                  también son útiles en misiones de espionaje.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Sección de mapa del mundo */}
+        <section className="w-full py-16 px-6 bg-gradient-to-r from-indigo-600 to-purple-600 text-white mb-12 rounded-lg">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl font-semibold mb-6">Explora el Mundo</h2>
+            <p className="text-lg mb-6">
+              El mundo de D&D Adventure está lleno de misterios. Desde frondosos
+              bosques hasta desoladas tierras corruptas. Cada rincón ofrece
+              nuevas aventuras y desafíos. ¡Prepárate para explorar y descubrir
+              lo desconocido!
+            </p>
+          </div>
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }

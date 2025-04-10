@@ -50,6 +50,7 @@ export default function RootLayout({
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 1 }}
+                className="mt-20"
               >
                 {children}
               </motion.div>
