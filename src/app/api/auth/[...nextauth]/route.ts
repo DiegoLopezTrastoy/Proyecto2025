@@ -3,7 +3,6 @@ import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import DiscordProvider from "next-auth/providers/discord";
 import GitLabProvider from "next-auth/providers/gitlab";
-import TwitchProvider from "next-auth/providers/twitch";
 import TwitterProvider from "next-auth/providers/twitter";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { JWT } from "next-auth/jwt";

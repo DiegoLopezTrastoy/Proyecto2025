@@ -11,7 +11,6 @@ import {
   FaGithub,
   FaGitlab,
   FaGoogle,
-  FaTwitch,
   FaTwitter,
 } from "react-icons/fa";
 
