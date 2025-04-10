@@ -103,32 +103,32 @@ export default function SignInPage() {
             <div className="mt-6 grid grid-cols-3 gap-3">
               <Button asChild className="w-full h-11">
                 <Link href={"/api/auth/signin/google"} prefetch={false}>
-                  <FaGoogle />
+                  <FaGoogle />Google
                 </Link>
               </Button>
               <Button asChild className="w-full h-11">
                 <Link href={"/api/auth/signin/github"} prefetch={false}>
-                  <FaGithub />
+                  <FaGithub />GitHub
                 </Link>
               </Button>
               <Button asChild className="w-full h-11">
                 <Link href={"/api/auth/signin/discord"} prefetch={false}>
-                  <FaDiscord />
+                  <FaDiscord />Discord
                 </Link>
               </Button>
               <Button asChild className="w-full h-11">
                 <Link href={"/api/auth/signin/twitch"} prefetch={false}>
-                  <FaTwitch />
+                  <FaTwitch />Twitch
                 </Link>
               </Button>
               <Button asChild className="w-full h-11">
                 <Link href={"/api/auth/signin/twitter"} prefetch={false}>
-                  <FaTwitter />
+                  <FaTwitter />Twitter
                 </Link>
               </Button>
               <Button asChild className="w-full h-11">
                 <Link href={"/api/auth/signin/gitlab"} prefetch={false}>
-                  <FaGitlab />
+                  <FaGitlab />GitLab
                 </Link>
               </Button>
             </div>
