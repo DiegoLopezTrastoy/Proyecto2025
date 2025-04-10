@@ -18,7 +18,7 @@ export interface MySession {
   expires: ISODateString
 }
 
-export const authOptions = {
+const authOptions = {
   providers: [
     CredentialsProvider({
       name: 'Credentials',
