@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev --turbopack -p 3001",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -19,6 +19,7 @@
     "@radix-ui/react-slot": "^1.1.2",
     "@radix-ui/react-toggle": "^1.1.2",
     "@tanstack/react-query": "^5.72.2",
+    "@types/rot-js": "^0.6.5",
     "bcrypt": "^5.1.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -33,9 +34,13 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-icons": "^5.5.0",
+    "rot-js": "^2.2.1",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1",
     "sonner": "^2.0.3",
     "tailwind-merge": "^3.2.0",
-    "tw-animate-css": "^1.2.5"
+    "tw-animate-css": "^1.2.5",
+    "ws": "^8.18.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -44,6 +49,8 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/socket.io": "^3.0.1",
+    "@types/socket.io-client": "^1.4.36",
     "autoprefixer": "^10.4.21",
     "eslint": "^9",
     "eslint-config-next": "15.2.4",
