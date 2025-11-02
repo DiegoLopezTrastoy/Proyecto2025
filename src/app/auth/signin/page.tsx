@@ -1,10 +1,18 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { createUser } from "@/lib/auth/register";
+import { LogIn, UserPlus } from "lucide-react";
 import { getCsrfToken, signIn } from "next-auth/react";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
   FaDiscord,
@@ -13,112 +21,259 @@ import {
   FaGoogle,
   FaTwitter,
 } from "react-icons/fa";
+import { Alert } from "@/components/ui/alert";
+import { useSearchParams } from "next/navigation";
 
 export default function SignInPage() {
   const [csrfToken, setCsrfToken] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState("login");
+  const [alertContent, setAlertContent] = useState("");
+  const searchParams = useSearchParams();
+  const error = searchParams.get("error");
 
   useEffect(() => {
     getCsrfToken().then((token) => {
       setCsrfToken(token!);
     });
+
+    if (error) {
+      setAlertContent("Error en el inicio de sesión.");
+    }
   }, []);
 
+  // Variables y funciones dummy agregadas para evitar errores
+  const [loginData, setLoginData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
   return (
-    <div className="flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-3xl font-extrabold">
-          Iniciar sesión
-        </h2>
-        <p className="mt-2 text-center text-sm max-w">
-          O
-          <Link
-            href={"/auth/signup"}
-            className="font-medium text-blue-400 hover:text-blue-500 ml-1"
-          >
-            Crea una cuenta
-          </Link>
-        </p>
-      </div>
+    <>
+      <Alert
+        variant="destructive"
+        className={alertContent ? "text-center" : "hidden"}
+      >
+        {alertContent}
+      </Alert>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-muted/20 p-4">
+        <Card className="w-full max-w-md">
+          <CardHeader className="text-center">
+            <CardTitle className="text-2xl bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+              D&D Adventure Master
+            </CardTitle>
+            <CardDescription>
+              Inicia sesión o crea una cuenta para comenzar tu aventura
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Tabs
+              defaultValue="login"
+              className="w-full"
+              value={activeTab}
+              onValueChange={(val) => {
+                setActiveTab(val);
+                setAlertContent("");
+              }}
+            >
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="login">Iniciar Sesión</TabsTrigger>
+                <TabsTrigger value="register">Registrarse</TabsTrigger>
+              </TabsList>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-neutral-100 dark:bg-neutral-800 py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <form className="space-y-6" action="/api/auth/callback/credentials" method="POST">
-            <input name="csrfToken" type="hidden" value={csrfToken ?? ""} />
-            <div>
-              <Label htmlFor="email" className="block text-sm font-medium">
-                Correo electrónico
-              </Label>
-              <Input
-                id="email"
-                className="mt-1"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                placeholder="example@example.com"
-              />
-            </div>
-
-            <div>
-              <Label htmlFor="password" className="block text-sm font-medium">
-                Contraseña
-              </Label>
-              <Input
-                id="password"
-                className="mt-1"
-                name="password"
-                type="password"
-                autoComplete="password"
-                required
-                placeholder="Introduzca su contraseña"
-              />
-            </div>
-
-            <div className="flex items-center justify-between">
-                <Link
-                  href={"/auth/forgot-password"}
-                  className="font-medium text-blue-400 hover:text-blue-500"
+              <TabsContent value="login">
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (
+                      loginData.email.length > 0 &&
+                      loginData.password.length > 0
+                    ) {
+                      signIn("credentials", {
+                        email: loginData.email,
+                        password: loginData.password,
+                        signUp: false,
+                        callbackUrl: "/",
+                      });
+                    }
+                  }}
+                  className="space-y-4"
                 >
-                  Olvidaste tu contraseña?
-                </Link>
-            </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      value={loginData.email}
+                      onChange={(e) =>
+                        setLoginData((prev) => ({
+                          ...prev,
+                          email: e.target.value,
+                        }))
+                      }
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="password">Contraseña</Label>
+                    <Input
+                      id="password"
+                      type="password"
+                      value={loginData.password}
+                      onChange={(e) =>
+                        setLoginData((prev) => ({
+                          ...prev,
+                          password: e.target.value,
+                        }))
+                      }
+                      required
+                    />
+                  </div>
+                  <Button type="submit" className="w-full">
+                    <LogIn className="w-4 h-4 mr-2" />
+                    Iniciar Sesión
+                  </Button>
+                </form>
+              </TabsContent>
 
-            <div>
-              <Button className="w-full" type="submit">
-                Iniciar sesion
-              </Button>
-            </div>
-          </form>
-          <div className="mt-6">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t"></div>
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white dark:bg-neutral-800">O</span>
-              </div>
-            </div>
-
+              <TabsContent value="register">
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (
+                      loginData.username.length > 0 &&
+                      loginData.email.length > 0 &&
+                      loginData.password.length > 0 &&
+                      loginData.confirmPassword.length > 0
+                    ) {
+                      createUser({
+                        username: loginData.username,
+                        email: loginData.email,
+                        password: loginData.password,
+                        confirmPassword: loginData.confirmPassword,
+                      }).then((result) => {
+                        if (!result) {
+                          setAlertContent(
+                            "Los datos insertados no son correctos."
+                          );
+                        } else {
+                          setAlertContent("");
+                          setActiveTab("login");
+                        }
+                      });
+                    }
+                  }}
+                  className="space-y-4"
+                >
+                  <div className="space-y-2">
+                    <Label htmlFor="username">Nombre de Usuario</Label>
+                    <Input
+                      id="username"
+                      value={loginData.username}
+                      onChange={(e) =>
+                        setLoginData((prev) => ({
+                          ...prev,
+                          username: e.target.value,
+                        }))
+                      }
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="register-email">Email</Label>
+                    <Input
+                      id="register-email"
+                      type="email"
+                      value={loginData.email}
+                      onChange={(e) =>
+                        setLoginData((prev) => ({
+                          ...prev,
+                          email: e.target.value,
+                        }))
+                      }
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="register-password">Contraseña</Label>
+                    <Input
+                      id="register-password"
+                      type="password"
+                      value={loginData.password}
+                      onChange={(e) =>
+                        setLoginData((prev) => ({
+                          ...prev,
+                          password: e.target.value,
+                        }))
+                      }
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="confirm-password">
+                      Confirmar Contraseña
+                    </Label>
+                    <Input
+                      id="confirm-password"
+                      type="password"
+                      value={loginData.confirmPassword}
+                      onChange={(e) =>
+                        setLoginData((prev) => ({
+                          ...prev,
+                          confirmPassword: e.target.value,
+                        }))
+                      }
+                      required
+                    />
+                  </div>
+                  <Button type="submit" className="w-full">
+                    <UserPlus className="w-4 h-4 mr-2" />
+                    Crear Cuenta
+                  </Button>
+                </form>
+              </TabsContent>
+            </Tabs>
             <div className="mt-6 grid grid-cols-6 gap-3">
-              <Button className="w-full col-span-2 h-11 hover:cursor-pointer" onClick={() => signIn("google")}>
-                  <FaGoogle />Google
+              <Button
+                className="w-full col-span-2 h-11 hover:cursor-pointer"
+                onClick={() => signIn("google", { callbackUrl: "/" })}
+              >
+                <FaGoogle />
+                Google
               </Button>
-              <Button className="w-full col-span-2 h-11 hover:cursor-pointer" onClick={() => signIn("github")}>
-                  <FaGithub />GitHub
+              <Button
+                className="w-full col-span-2 h-11 hover:cursor-pointer"
+                onClick={() => signIn("github", { callbackUrl: "/" })}
+              >
+                <FaGithub />
+                GitHub
               </Button>
-              <Button className="w-full col-span-2 h-11 hover:cursor-pointer" onClick={() => signIn("discord")}>
-                  <FaDiscord />Discord
+              <Button
+                className="w-full col-span-2 h-11 hover:cursor-pointer"
+                onClick={() => signIn("discord", { callbackUrl: "/" })}
+              >
+                <FaDiscord />
+                Discord
               </Button>
-              <Button className="w-full col-span-3 h-11 hover:cursor-pointer" onClick={() => signIn("twitter")}>
-                  <FaTwitter />Twitter
+              <Button
+                className="w-full col-span-3 h-11 hover:cursor-pointer"
+                onClick={() => signIn("twitter", { callbackUrl: "/" })}
+              >
+                <FaTwitter />
+                Twitter
               </Button>
-              <Button className="w-full col-span-3 h-11 hover:cursor-pointer" onClick={() => signIn("gitlab")}>
-                  <FaGitlab />GitLab
+              <Button
+                className="w-full col-span-3 h-11 hover:cursor-pointer"
+                onClick={() => signIn("gitlab", { callbackUrl: "/" })}
+              >
+                <FaGitlab />
+                GitLab
               </Button>
             </div>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       </div>
-    </div>
+    </>
   );
 }

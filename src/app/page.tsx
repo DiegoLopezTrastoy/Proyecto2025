@@ -1,93 +1,222 @@
-"use client";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
+import { Sword, Shield, Wand2, Bot as Bow, BookOpen, Heart, Zap, Eye } from 'lucide-react';
 
-import { Button } from "@/components/ui/button";
+const classes = [
+  {
+    name: 'Guerrero',
+    icon: Sword,
+    description: 'Maestro del combate cuerpo a cuerpo',
+    abilities: ['Alta resistencia', 'Combate con armas', 'Liderazgo'],
+    hitDie: 'd10',
+    primaryStat: 'Fuerza',
+  },
+  {
+    name: 'Mago',
+    icon: Wand2,
+    description: 'Manipulador de la magia arcana',
+    abilities: ['Hechizos poderosos', 'Conocimiento arcano', 'Versatilidad mágica'],
+    hitDie: 'd6',
+    primaryStat: 'Inteligencia',
+  },
+  {
+    name: 'Pícaro',
+    icon: Eye,
+    description: 'Especialista en sigilo y precisión',
+    abilities: ['Ataque furtivo', 'Habilidades de ladrón', 'Evasión'],
+    hitDie: 'd8',
+    primaryStat: 'Destreza',
+  },
+  {
+    name: 'Clérigo',
+    icon: Heart,
+    description: 'Sanador divino y protector',
+    abilities: ['Magia divina', 'Sanación', 'Canalizar divinidad'],
+    hitDie: 'd8',
+    primaryStat: 'Sabiduría',
+  },
+  {
+    name: 'Explorador',
+    icon: Bow,
+    description: 'Rastreador y arquero experto',
+    abilities: ['Combate a distancia', 'Rastreo', 'Supervivencia'],
+    hitDie: 'd10',
+    primaryStat: 'Destreza',
+  },
+  {
+    name: 'Paladín',
+    icon: Shield,
+    description: 'Guerrero sagrado y protector',
+    abilities: ['Aura protectora', 'Imposición de manos', 'Combate sagrado'],
+    hitDie: 'd10',
+    primaryStat: 'Carisma',
+  },
+];
+
+const gameRules = [
+  {
+    title: 'Creación de Personaje',
+    description: 'Elige tu clase, raza y distribución de características',
+  },
+  {
+    title: 'Sistema de Dados',
+    description: 'Usa dados de 20 caras para determinar el éxito de tus acciones',
+  },
+  {
+    title: 'Puntos de Vida',
+    description: 'Tu resistencia se mide en puntos de vida que varían según tu clase',
+  },
+  {
+    title: 'Combate por Turnos',
+    description: 'En combate, cada personaje actúa según su iniciativa',
+  },
+];
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center p-8 pb-0 sm:pb-0 gap-16 sm:p-20 pt-0 sm:pt-0 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center">
-          <h2 className="text-4xl font-bold mb-6">¿Cómo deseas jugar?</h2>
+    <div className="space-y-12">
+      {/* Hero Section */}
+      <section className="text-center space-y-6">
+        <div className="space-y-2">
+          <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent">
+            Bienvenido a D&D Adventure Master
+          </h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Embárcate en aventuras épicas con nuestro sistema de juego interactivo impulsado por IA
+          </p>
+        </div>
+        <div className="flex justify-center space-x-4">
+          <Badge variant="secondary" className="px-4 py-2">
+            <Zap className="w-4 h-4 mr-2" />
+            IA Avanzada
+          </Badge>
+          <Badge variant="secondary" className="px-4 py-2">
+            <BookOpen className="w-4 h-4 mr-2" />
+            Historias Dinámicas
+          </Badge>
+        </div>
+      </section>
 
-          <div className="space-x-4">
-            <Button className="px-6 py-3 text-lg">
-              Jugar en solitario
-            </Button>
-            <Button
-              variant="outline"
-              className="px-6 py-3 text-lg"
-            >
-              Jugar multijugador
-            </Button>
-          </div>
+      {/* Game Rules Section */}
+      <section className="space-y-6">
+        <div className="text-center space-y-2">
+          <h2 className="text-3xl font-semibold">Cómo Jugar</h2>
+          <p className="text-muted-foreground">
+            Reglas básicas para comenzar tu aventura
+          </p>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {gameRules.map((rule, index) => (
+            <Card key={index} className="transition-all duration-200 hover:shadow-lg border-l-4 border-l-primary">
+              <CardHeader>
+                <CardTitle className="text-lg">{rule.title}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-base">
+                  {rule.description}
+                </CardDescription>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
 
-        <section className="bg-neutral-100 dark:bg-neutral-800 w-full py-16 px-6 mb-12 rounded-lg shadow-lg">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl font-semibold mb-6">Acerca del juego</h2>
-            <p className="text-lg mb-4">
-              <strong>D&D Adventure</strong> es un juego de rol basado en el
-              sistema de Dungeons & Dragons donde puedes crear tu propio
-              personaje, explorar un mundo generado proceduralmente, y tomar
-              decisiones que afectarán el destino de tu aventura. Lanza dados,
-              elige tus habilidades y enfréntate a desafíos que pondrán a prueba
-              tu ingenio y valentía.
-            </p>
-            <p className="text-lg mb-4">
-              Puedes jugar de manera <strong>solitaria</strong> o unirte a otros
-              jugadores en el modo
-              <strong> multijugador</strong>, donde podrás formar alianzas,
-              explorar juntos y derrotar a temibles enemigos.
-            </p>
-          </div>
-        </section>
+      <Separator className="my-8" />
 
-        <section className="bg-gray-800 text-white w-full py-16 px-6 mb-12 rounded-lg shadow-lg">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl font-semibold mb-6">Elige tu clase</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-purple-700 p-6 rounded-lg shadow-lg">
-                <h3 className="text-2xl font-bold mb-4">Guerrero</h3>
-                <p className="text-lg mb-4">
-                  Fuerte y resistente, el Guerrero es un experto en combate
-                  cuerpo a cuerpo y tiene una gran resistencia a los ataques
-                  enemigos. Ideal para los que prefieren un estilo de juego
-                  directo y de combate cercano.
+      {/* Classes Section */}
+      <section className="space-y-6">
+        <div className="text-center space-y-2">
+          <h2 className="text-3xl font-semibold">Clases de Personaje</h2>
+          <p className="text-muted-foreground">
+            Cada clase ofrece un estilo de juego único con habilidades especiales
+          </p>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {classes.map((characterClass, index) => {
+            const Icon = characterClass.icon;
+            return (
+              <Card key={index} className="transition-all duration-300 hover:scale-[1.02] hover:shadow-xl group">
+                <CardHeader className="text-center pb-4">
+                  <div className="mx-auto mb-4 p-3 rounded-full bg-primary/10 w-fit group-hover:bg-primary/20 transition-colors">
+                    <Icon className="h-8 w-8 text-primary" />
+                  </div>
+                  <CardTitle className="text-xl">{characterClass.name}</CardTitle>
+                  <CardDescription>{characterClass.description}</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex justify-between text-sm">
+                    <span className="font-medium">Dado de Vida:</span>
+                    <Badge variant="outline">{characterClass.hitDie}</Badge>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="font-medium">Característica Principal:</span>
+                    <Badge variant="outline">{characterClass.primaryStat}</Badge>
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-sm mb-2">Habilidades:</h4>
+                    <div className="flex flex-wrap gap-1">
+                      {characterClass.abilities.map((ability, idx) => (
+                        <Badge key={idx} variant="secondary" className="text-xs">
+                          {ability}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* How the Game Works */}
+      <section className="space-y-6">
+        <div className="text-center space-y-2">
+          <h2 className="text-3xl font-semibold">Cómo Funciona Nuestro Juego</h2>
+          <p className="text-muted-foreground max-w-3xl mx-auto">
+            Nuestro sistema utiliza inteligencia artificial avanzada para crear aventuras personalizadas y dinámicas
+          </p>
+        </div>
+
+        <Card className="border-2 border-dashed border-primary/20 bg-primary/5">
+          <CardContent className="p-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+              <div className="space-y-4">
+                <div className="mx-auto w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                  <span className="text-2xl font-bold text-primary">1</span>
+                </div>
+                <h3 className="font-semibold">Crea tu Personaje</h3>
+                <p className="text-sm text-muted-foreground">
+                  El chat te guiará para crear tu personaje único con historia, características y motivaciones
                 </p>
               </div>
-
-              <div className="bg-green-700 p-6 rounded-lg shadow-lg">
-                <h3 className="text-2xl font-bold mb-4">Mago</h3>
-                <p className="text-lg mb-4">
-                  El Mago domina las artes arcanas y lanza poderosos hechizos.
-                  Perfecto para quienes disfrutan de las tácticas a distancia y
-                  manipulan la magia para afectar el campo de batalla.
+              
+              <div className="space-y-4">
+                <div className="mx-auto w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                  <span className="text-2xl font-bold text-primary">2</span>
+                </div>
+                <h3 className="font-semibold">Aventura Interactiva</h3>
+                <p className="text-sm text-muted-foreground">
+                  La IA genera eventos y desafíos únicos basados en tu personaje y decisiones
                 </p>
               </div>
-
-              <div className="bg-blue-700 p-6 rounded-lg shadow-lg">
-                <h3 className="text-2xl font-bold mb-4">Ladrón</h3>
-                <p className="text-lg mb-4">
-                  Astuto y ágil, el Ladrón es experto en el sigilo y en el robo.
-                  Ideal para jugadores que prefieren el sigilo y la evasión, y
-                  también son útiles en misiones de espionaje.
+              
+              <div className="space-y-4">
+                <div className="mx-auto w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                  <span className="text-2xl font-bold text-primary">3</span>
+                </div>
+                <h3 className="font-semibold">Progresa y Evoluciona</h3>
+                <p className="text-sm text-muted-foreground">
+                  Tu personaje crece con cada aventura, desbloqueando nuevas habilidades y opciones
                 </p>
               </div>
             </div>
-          </div>
-        </section>
-
-        {/* Sección de mapa del mundo */}
-        <section className="w-full py-16 px-6 bg-gradient-to-r from-indigo-600 to-purple-600 text-white mb-12 rounded-lg">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl font-semibold mb-6">Explora el Mundo</h2>
-            <p className="text-lg mb-6">
-              El mundo de D&D Adventure está lleno de misterios. Desde frondosos
-              bosques hasta desoladas tierras corruptas. Cada rincón ofrece
-              nuevas aventuras y desafíos. ¡Prepárate para explorar y descubrir
-              lo desconocido!
-            </p>
-          </div>
-        </section>
-      </main>
+          </CardContent>
+        </Card>
+      </section>
     </div>
   );
 }

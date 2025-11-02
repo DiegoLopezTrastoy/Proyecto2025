@@ -1,0 +1,184 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url = env("DB_URL")
+}
+
+enum State {
+  ACTIVE
+  INACTIVE
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum UserOrIa {
+  SYSTEM
+  USER
+  IA
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id])
+}
+
+model Account {
+  id                String   @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?  @db.LongText
+  access_token      String?  @db.LongText
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?  @db.LongText
+  session_state     String?
+  user              User     @relation(fields: [userId], references: [id])
+
+  @@unique([provider, providerAccountId])
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  createdAt     DateTime  @default(now()) @map(name: "created_at")
+  updatedAt     DateTime  @updatedAt @map(name: "updated_at")
+  state         State     @default(ACTIVE)
+  games         Game[]
+  role          Role      @default(USER)
+  password      String?
+}
+
+model Game {
+  id            String    @default(cuid()) @id
+  userId        String
+  user          User      @relation(fields: [userId], references: [id])
+  state         State     @default(ACTIVE)
+  characterId   String    @unique
+  createdAt     DateTime  @default(now())
+  character     Character @relation(fields: [characterId], references: [id])
+  conversations Conversation[]
+}
+
+model Character {
+  id            String    @default(cuid()) @id
+  name          String
+  raceId        String
+  race          Race      @relation(fields: [raceId], references: [id])
+  classId       String
+  class         Class     @relation(fields: [classId], references: [id])
+  level         Int       @default(1)
+  hp            Int
+  currentHp     Int
+  strength      Int       @default(1)
+  dexterity     Int       @default(1)
+  constitution  Int       @default(1)
+  intelligence  Int       @default(1)
+  wisdom        Int       @default(1)
+  charisma      Int       @default(1)
+  armorId       String?
+  armor         Armor?    @relation(fields: [armorId], references: [id])
+  initiative    Int       @default(1)
+  skills        Skill[]
+  spells        Spell[]
+  equipmentId   String?
+  equipment     Equipment? @relation(fields: [equipmentId], references: [id])
+  backstory     String?
+  game          Game?
+}
+
+model Race {
+  id            String    @default(cuid()) @id
+  name          String
+  strength      Int?       @default(0)
+  dexterity     Int?       @default(0)
+  constitution  Int?       @default(0)
+  intelligence  Int?       @default(0)
+  wisdom        Int?       @default(0)
+  charisma      Int?       @default(0)
+  characters    Character[]
+  state         State     @default(ACTIVE)
+  createdAt     DateTime  @default(now())
+}
+
+model Class {
+  id            String    @default(cuid()) @id
+  name          String
+  characters    Character[]
+  dice          Int
+  state         State     @default(ACTIVE)
+  createdAt     DateTime  @default(now())
+}
+
+model Armor {
+  id            String    @default(cuid()) @id
+  name          String
+  defense       Int
+  characters    Character[]
+  state         State     @default(ACTIVE)
+  createdAt     DateTime  @default(now())
+}
+
+model Skill {
+  id            String    @default(cuid()) @id
+  name          String
+  characters    Character[]
+  state         State     @default(ACTIVE)
+  createdAt     DateTime  @default(now())
+}
+
+model Spell {
+  id            String    @default(cuid()) @id
+  name          String
+  characters    Character[]
+  state         State     @default(ACTIVE)
+  createdAt     DateTime  @default(now())
+}
+
+model Equipment {
+  id            String    @default(cuid()) @id
+  name          String
+  characters    Character[]
+  state         State     @default(ACTIVE)
+  createdAt     DateTime  @default(now())
+}
+
+model Conversation {
+  id            String    @default(cuid()) @id
+  message       String
+  userOrIa      UserOrIa
+  gameId        String
+  game          Game      @relation(fields: [gameId], references: [id])
+  createdAt     DateTime  @default(now())
+}
+
+model Embedding {
+  id            String    @default(cuid()) @id
+  createdAt     DateTime  @default(now()) @map(name: "created_at")
+  stateId       String
+  state         State
+}

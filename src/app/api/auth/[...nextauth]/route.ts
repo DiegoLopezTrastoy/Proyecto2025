@@ -1,42 +1,74 @@
-import NextAuth, { Account, ISODateString } from "next-auth";
+import NextAuth, { Awaitable, RequestInternal, User } from "next-auth";
+import { AuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import DiscordProvider from "next-auth/providers/discord";
 import GitLabProvider from "next-auth/providers/gitlab";
 import TwitterProvider from "next-auth/providers/twitter";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { JWT } from "next-auth/jwt";
+import { prisma } from "@/lib/prisma";
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import bcrypt from "bcryptjs";
 
-export interface MySession {
-  user?: {
-    name?: string | null
-    email?: string | null
-    image?: string | null
-  }
-  accessToken?: string,
-  expires: ISODateString
-}
-
-const authOptions = {
+export const authConfig = {
+  pages: {
+    signIn: "/auth/signin",
+    error: "/auth/error",
+  },
+  callbacks: {
+    async signIn({user, account}) {
+      const dbUser = await prisma.user.findUnique({where: {id: user.id}})
+      if (!dbUser) {
+        return true;
+      }
+      if (user && "state" in user && user.state == "ACTIVE") {
+        return true;
+      }
+      return false;
+    },
+    jwt({ token, user, account, profile }) {
+      if (user && "role" in user) {
+        token.role = user.role;
+      }
+      return token;
+    },
+  },
+  adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
-      name: 'Credentials',
+      name: "Credentials",
       credentials: {
         email: { label: "email", type: "text" },
-        password: { label: "Password", type: "password" }
+        password: { label: "password", type: "password" },
       },
-      async authorize(credentials) {
-        const user = { id: '1', email: credentials?.email, password: credentials?.password };
-        if (user.email === 'admin@admin.com' && user.password === 'admin') {
-          return { id: user.id, name: user.email }; // Usuario válido
+      authorize: async function (
+        credentials:
+          | Record<
+              "email" | "password",
+              string
+            >
+          | undefined,
+        req: Pick<RequestInternal, "body" | "query" | "headers" | "method">
+      ): Promise<User | null> {
+        if (!credentials) {
+          return null;
         }
-        return null; // Usuario no válido
-      }
+        const {email, password} = credentials;
+        if (email.length > 0 && password.length > 0) {
+          const user = await prisma.user.findUnique({where: {email}})
+          if (user && await bcrypt.compare(password, user!.password!)) {
+            const {password, ...safeUser} = user;
+            return safeUser;
+          }
+        }
+        return null;
+      },
     }),
 
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      
     }),
 
     GitHubProvider({
@@ -59,40 +91,11 @@ const authOptions = {
       clientSecret: process.env.GITLAB_CLIENT_SECRET!,
     }),
   ],
-
-  pages: {
-    signIn: '/auth/signin',
-  },
-
   session: {
-    strategy: "jwt" as const,
-  },
+    strategy: "jwt"
+  }
+} satisfies AuthOptions;
 
-  callbacks: {
-    async jwt({ token, account }: {token: JWT, account: Account | null}) {
-      if (account) {
-        token.accessToken = account.access_token;
-      }
-      return token;
-    },
-    async session({ session, token }: {session: MySession, token: JWT}) {
-      if (token.accessToken) {
-        session.accessToken = token.accessToken as string;
-      }
-      return session;
-    },
-    async redirect({ url, baseUrl }: {url: string, baseUrl: string}) {
-      if (url === baseUrl) {
-        return url;
-      }
-
-      return baseUrl;
-    },
-  },
-
-  secret: process.env.NEXTAUTH_SECRET,
-};
-
-const handler = NextAuth(authOptions);
+const handler = NextAuth(authConfig);
 
 export { handler as GET, handler as POST };

@@ -1,61 +1,40 @@
-"use client";
-
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import "primereact/resources/themes/lara-dark-cyan/theme.css";
-import "primeicons/primeicons.css";
-import { ThemeProvider } from "./_layout/themeProvider";
-import { SessionProvider } from "next-auth/react";
-import Header from "./_layout/header";
-import { motion } from "framer-motion";
-import { usePathname } from "next/navigation";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import { ThemeProvider } from "@/components/theme-provider";
+import { Header } from "@/components/header";
+import { Toaster } from "@/components/ui/sonner";
+import AuthSessionProvider from "@/components/auth/session-provider";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+const inter = Inter({ subsets: ["latin"] });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+export const metadata: Metadata = {
+  title: "D&D Adventure Master",
+  description: "Interactive D&D game platform with AI-powered storytelling"
+};
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
-  const pathname = usePathname();
-
+}) {
   return (
     <html lang="es" suppressHydrationWarning>
-      <head>
-        <link rel="icon" href="/logo.svg" />
-        <title>Proyecto 2025</title>
-      </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased max-h-screen`}
-      >
-        <SessionProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <Header />
-              <motion.div
-                key={pathname} // El key asegura que cada página tiene su propia animación
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 1 }}
-                className="mt-20"
-              >
-                {children}
-              </motion.div>
-          </ThemeProvider>
-        </SessionProvider>
+      <body className={inter.className}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange={false}
+        >
+          <AuthSessionProvider>
+            <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
+              <Header />
+              <main className="container mx-auto px-4 py-8">{children}</main>
+              <Toaster />
+            </div>
+          </AuthSessionProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
