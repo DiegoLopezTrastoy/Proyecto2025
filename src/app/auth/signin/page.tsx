@@ -40,8 +40,7 @@ export default function SignInPage() {
       setAlertContent("Error en el inicio de sesión.");
     }
   }, []);
-
-  // Variables y funciones dummy agregadas para evitar errores
+  
   const [loginData, setLoginData] = useState({
     username: "",
     email: "",

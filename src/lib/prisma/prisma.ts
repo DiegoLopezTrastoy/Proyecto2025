@@ -337,3 +337,10 @@ export async function newSkill(
 ) {
   return await prisma.skill.create({ data });
 }
+
+export async function updateCharacter(
+  id: string,
+  data: Partial<Prisma.CharacterGetPayload<{}>>
+){
+  return await prisma.character.update({ where: { id }, data });
+}

@@ -56,7 +56,6 @@ import EquipamientosAdminTab from "@/components/admin/equipamientos";
 import ArmadurasAdminTab from "@/components/admin/armaduras";
 import MagiasAdminTab from "@/components/admin/magias";
 import HabilidadesAdminTab from "@/components/admin/habilidades";
-import EmbeddingsAdminTab from "@/components/admin/embeddings";
 
 export default function AdminPage() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -94,10 +93,6 @@ export default function AdminPage() {
       icon: <Lightbulb className="w-4 h-4"/>,
       label: "Habilidades",
       content: <HabilidadesAdminTab filter={searchTerm}/>
-    },{
-      icon: <BrainCog className="w-4 h-4"/>,
-      label: "Embeddings",
-      content: <EmbeddingsAdminTab filter={searchTerm}/>
     }
   ]
 
@@ -125,7 +120,7 @@ export default function AdminPage() {
       </div>
 
     <Tabs className="w-full" defaultValue={tabsList[0].label}>
-      <TabsList className="grid w-full grid-cols-9">
+      <TabsList className="grid w-full grid-cols-8">
         {tabsList.map((tab, index) => {
           return (<TabsTrigger value={tab.label} className="flex items-center space-x-2" key={tab.label}>
             {tab.icon}

@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Sword, Shield, Wand2, Bot as Bow, BookOpen, Heart, Zap, Eye } from 'lucide-react';
+import Murmullo from '@/components/murmullo';
 
 const classes = [
   {
@@ -76,7 +77,6 @@ const gameRules = [
 export default function Home() {
   return (
     <div className="space-y-12">
-      {/* Hero Section */}
       <section className="text-center space-y-6">
         <div className="space-y-2">
           <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent">
@@ -98,7 +98,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Game Rules Section */}
       <section className="space-y-6">
         <div className="text-center space-y-2">
           <h2 className="text-3xl font-semibold">Cómo Jugar</h2>
@@ -125,7 +124,6 @@ export default function Home() {
 
       <Separator className="my-8" />
 
-      {/* Classes Section */}
       <section className="space-y-6">
         <div className="text-center space-y-2">
           <h2 className="text-3xl font-semibold">Clases de Personaje</h2>
@@ -172,7 +170,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* How the Game Works */}
       <section className="space-y-6">
         <div className="text-center space-y-2">
           <h2 className="text-3xl font-semibold">Cómo Funciona Nuestro Juego</h2>
@@ -216,6 +213,13 @@ export default function Home() {
             </div>
           </CardContent>
         </Card>
+      </section>
+
+      <section>
+        <div className="text-center space-y-2 mb-4">
+          <h2 className="text-3xl font-semibold">El Murmullo de los Astros</h2>
+        </div>
+          <Murmullo />
       </section>
     </div>
   );

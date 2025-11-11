@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Card,
   CardContent,
@@ -12,18 +12,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  ArrowLeft,
-  Send,
-  Bot,
-  User,
-  Dice6,
-  Heart,
-  Shield,
-  Zap,
-} from "lucide-react";
+import { ArrowLeft, Send, Bot, User, Heart, Shield, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Conversation, Prisma } from "@prisma/client";
+import { Conversation } from "@prisma/client";
 import { redirect, useParams } from "next/navigation";
 import Link from "next/link";
 import { addMessage, Game, getGame, questionToIA } from "@/lib/game/game";
@@ -33,15 +24,7 @@ const initialMessages: Conversation[] = [
     id: "1",
     userOrIa: "SYSTEM",
     message:
-      "Bienvenido a tu aventura de D&D. Tu personaje ha sido cargado y estás listo para continuar.",
-    createdAt: new Date(),
-    gameId: "",
-  },
-  {
-    id: "2",
-    userOrIa: "IA",
-    message:
-      "Te encuentras en la entrada de una cueva misteriosa. Las sombras danzan en las paredes rocosas, y puedes escuchar un eco lejano que parece ser... ¿voces? El aire se siente pesado con una energía antigua. ¿Qué deseas hacer?",
+      "Bienvenido a tu aventura de D&D. Tu personaje ha sido cargado y estás listo para continuar. Escribe La historia o todo lo que quieras añadir para una esperiencia mas personalizada.",
     createdAt: new Date(),
     gameId: "",
   },
@@ -56,6 +39,7 @@ export default function playGame() {
   const [currentMessage, setCurrentMessage] = useState<string>("");
   const [isPageLoading, setIsPageLoading] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const scrollarea = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     (async () => {
@@ -63,9 +47,19 @@ export default function playGame() {
       if (dbGame) {
         setGame(dbGame);
         setIsPageLoading(false);
+        if (dbGame.conversations.length > 0) {
+          setConversations([...dbGame.conversations]);
+        }
       }
     })();
   }, []);
+
+  useEffect(() => {
+    if (scrollarea.current) {
+      const last = scrollarea.current.lastElementChild as HTMLElement | null;
+      last?.scrollBy({ behavior: "smooth", top: last?.scrollHeight });
+    }
+  }, [conversations, scrollarea]);
 
   const sendMessage = async () => {
     if ((!!currentMessage.trim() || !isLoading) && game) {
@@ -85,34 +79,22 @@ export default function playGame() {
       }
       setConversations((prev) => [...prev, dbConversation]);
       setIsLoading(true);
-      
-      questionToIA(currentMessage, game).then(response => {
-        console.log(response);
+
+      questionToIA(currentMessage, game).then(async (response) => {
+        const aiResponse: Conversation = {
+          id: (Date.now() + 1).toString(),
+          userOrIa: "IA",
+          message: response,
+          createdAt: new Date(),
+          gameId,
+        };
+        await addMessage(gameId, aiResponse.message, aiResponse.userOrIa);
+        setConversations((prev) => [...prev, aiResponse]);
         setIsLoading(false);
+        getGame(gameId).then((val) => setGame(val ?? game));
       });
       setCurrentMessage("");
-
-      // const aiResponse: Conversation = {
-      //   id: (Date.now() + 1).toString(),
-      //   userOrIa: "IA",
-      //   message: generateAIResponse(currentMessage),
-      //   createdAt: new Date(),
-      //   gameId,
-      // };
-
-      // setConversations((prev) => [...prev, aiResponse]);
     }
-  };
-
-  const generateAIResponse = (userInput: string): string => {
-    const responses = [
-      "Te adentras cautelosamente. La cueva se abre ante ti revelando un pasillo que se bifurca. A la izquierda escuchas el goteo del agua, a la derecha un susurro casi imperceptible.",
-      "El eco de tus pasos resuena en la caverna. Notas grabados antiguos en las paredes que parecen contar una historia de aventureros que pasaron por aquí hace mucho tiempo.",
-      "Un murciélago sale volando súbitamente de las sombras, pero no parece hostil. En la distancia, ves un débil resplandor que podría ser luz natural... o algo más misterioso.",
-      "El suelo cruje bajo tus pies. Tu antorcha ilumina esqueletos esparcidos, pero también algo que brilla entre ellos. ¿Te arriesgarás a investigar?",
-    ];
-
-    return responses[Math.floor(Math.random() * responses.length)];
   };
 
   if (!isPageLoading) {
@@ -198,12 +180,6 @@ export default function playGame() {
                     </div>
                   </div>
                 </div>
-                <div className="space-y-2">
-                  <Button variant="outline" size="sm" className="w-full">
-                    <Dice6 className="w-4 h-4 mr-2" />
-                    Tirar Dados
-                  </Button>
-                </div>
               </CardContent>
             </Card>
           </div>
@@ -216,7 +192,10 @@ export default function playGame() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="flex-1 flex flex-col p-0">
-                <ScrollArea className="flex-1 p-4 max-h-[65vh]">
+                <ScrollArea
+                  ref={scrollarea}
+                  className="flex-1 p-4 max-h-[65vh]"
+                >
                   <div className="space-y-4">
                     {conversations.map((message) => (
                       <div
@@ -284,27 +263,27 @@ export default function playGame() {
                   </div>
                 </ScrollArea>
                 <div className="border-t p-4">
-                    <form
-                      className="flex space-x-2"
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                        sendMessage();
-                      }}
+                  <form
+                    className="flex space-x-2"
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      sendMessage();
+                    }}
+                  >
+                    <Input
+                      value={currentMessage}
+                      onChange={(e) => setCurrentMessage(e.target.value)}
+                      placeholder="Describe tu acción..."
+                      disabled={isLoading}
+                    />
+                    <Button
+                      type="submit"
+                      disabled={!currentMessage.trim() || isLoading}
+                      size="icon"
                     >
-                      <Input
-                        value={currentMessage}
-                        onChange={(e) => setCurrentMessage(e.target.value)}
-                        placeholder="Describe tu acción..."
-                        disabled={isLoading}
-                      />
-                      <Button
-                        type="submit"
-                        disabled={!currentMessage.trim() || isLoading}
-                        size="icon"
-                      >
-                        <Send className="w-4 h-4" />
-                      </Button>
-                    </form>
+                      <Send className="w-4 h-4" />
+                    </Button>
+                  </form>
                 </div>
               </CardContent>
             </Card>

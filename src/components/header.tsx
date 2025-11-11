@@ -9,16 +9,26 @@ import { getSession, signIn, signOut, useSession } from "next-auth/react";
 import { Home, GamepadIcon, Shield, User, LogOut } from "lucide-react";
 import Logo from "../../public/logo.svg";
 import Image from "next/image";
+import { userIsAdmin } from "@/lib/header/functions";
+import { useEffect, useState } from "react";
 
 export function Header() {
   const pathname = usePathname();
   const { data: session, status } = useSession<any>();
-
-  const navItems = [
+  const [navItems, setNavItems] = useState([
     { href: "/", label: "Inicio", icon: Home },
-    ...(status ? [{ href: "/game", label: "Juego", icon: GamepadIcon }] : []),
-    ...(status ? [{ href: "/admin", label: "Admin", icon: Shield }] : []),
-  ];
+    { href: "/game", label: "Juego", icon: GamepadIcon },
+  ]);
+
+  useEffect(() => {
+    if (status == "authenticated") {
+      userIsAdmin(session?.user.email).then((val) => {
+        if (val) {
+          setNavItems(prev => [...prev, { href: "/admin", label: "Admin", icon: Shield }]);
+        }
+      });
+    }
+  }, [session]);
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -26,7 +36,7 @@ export function Header() {
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center space-x-2">
             <Link href={"/"}>
-              <Image src={Logo} alt="logo" width={50} height={50}/>
+              <Image src={Logo} alt="logo" width={50} height={50} />
             </Link>
           </div>
 
