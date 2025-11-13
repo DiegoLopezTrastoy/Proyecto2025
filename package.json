@@ -6,7 +6,6 @@
     "dev": "next dev --turbopack -p 3000",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
     "prisma:sync": "npx prisma db push --schema ./src/prisma/schema.prisma && rm -rf node_modules/.prisma node_modules/@prisma && npm install && npx prisma generate --schema ./src/prisma/schema.prisma"
   },
   "dependencies": {
@@ -53,8 +52,6 @@
     "cmdk": "^1.0.0",
     "date-fns": "^3.6.0",
     "embla-carousel-react": "^8.3.0",
-    "eslint": "8.49.0",
-    "eslint-config-next": "13.5.1",
     "input-otp": "^1.2.4",
     "lucide-react": "^0.446.0",
     "next": "^15.5.3",
@@ -81,9 +78,7 @@
     "zod-to-json-schema": "^3.24.6"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
-    "@tanstack/eslint-plugin-query": "^5.72.2",
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -91,8 +86,6 @@
     "@types/socket.io": "^3.0.1",
     "@types/socket.io-client": "^1.4.36",
     "autoprefixer": "^10.4.21",
-    "eslint": "^9",
-    "eslint-config-next": "15.2.4",
     "postcss": "^8.5.3",
     "prisma": "^6.16.2",
     "tailwindcss": "^4.1.13",

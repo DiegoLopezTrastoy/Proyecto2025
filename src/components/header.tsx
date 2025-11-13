@@ -22,13 +22,15 @@ export function Header() {
 
   useEffect(() => {
     if (status == "authenticated") {
-      userIsAdmin(session?.user.email).then((val) => {
+      console.log(session?.user);
+      
+      userIsAdmin(session?.user?.email).then((val) => {
         if (val) {
           setNavItems(prev => [...prev, { href: "/admin", label: "Admin", icon: Shield }]);
         }
       });
     }
-  }, [session]);
+  }, [session, session?.user]);
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">

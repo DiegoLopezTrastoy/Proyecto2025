@@ -1,4 +1,4 @@
-import NextAuth, { Awaitable, RequestInternal, User } from "next-auth";
+import NextAuth, { RequestInternal, User } from "next-auth";
 import { AuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
@@ -10,13 +10,13 @@ import { prisma } from "@/lib/prisma";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcryptjs";
 
-export const authConfig = {
+const authConfig = {
   pages: {
     signIn: "/auth/signin",
     error: "/auth/error",
   },
   callbacks: {
-    async signIn({user, account}) {
+    async signIn({user}) {
       const dbUser = await prisma.user.findUnique({where: {id: user.id}})
       if (!dbUser) {
         return true;
@@ -26,7 +26,7 @@ export const authConfig = {
       }
       return false;
     },
-    jwt({ token, user, account, profile }) {
+    jwt({ token, user }) {
       if (user && "role" in user) {
         token.role = user.role;
       }
@@ -47,8 +47,7 @@ export const authConfig = {
               "email" | "password",
               string
             >
-          | undefined,
-        req: Pick<RequestInternal, "body" | "query" | "headers" | "method">
+          | undefined
       ): Promise<User | null> {
         if (!credentials) {
           return null;

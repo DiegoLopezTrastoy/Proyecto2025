@@ -1,5 +1,4 @@
 import { withAuth } from "next-auth/middleware";
-import { signIn } from "next-auth/react";
 import { NextResponse } from "next/server";
 
 const onlyAdmin: string[] = ["/admin"];
@@ -12,8 +11,7 @@ export default withAuth(function middleware(req) {
     return NextResponse.next();
   }
   if (!token) {
-    signIn();
-    return NextResponse.error();
+    return NextResponse.redirect('/auth/signin');
   }
   if ((token.role == "ADMIN") || (token.role == "USER" && onlyUser.includes(pathname))) {
     return NextResponse.next();

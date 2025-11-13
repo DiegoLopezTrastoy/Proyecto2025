@@ -30,7 +30,7 @@ const initialMessages: Conversation[] = [
   },
 ];
 
-export default function playGame() {
+export default function PlayGame() {
   const params = useParams<{ id: string }>();
   const gameId = params.id;
   const [game, setGame] = useState<Game>();

@@ -106,12 +106,12 @@ export type SkillInAdmin = Prisma.SkillGetPayload<{
 }>;
 
 export async function getGames(
-  user: User
+  email: string
 ): Promise<GameWithPersonaje[] | null> {
-  if (!user || !user.email) {
+  if (!email) {
     return null;
   }
-  const bdUser = await prisma.user.findUnique({ where: { email: user.email } });
+  const bdUser = await prisma.user.findUnique({ where: { email } });
   return await prisma.game.findMany({
     where: { userId: bdUser?.id },
     include: { character: { include: { race: true, class: true } } },

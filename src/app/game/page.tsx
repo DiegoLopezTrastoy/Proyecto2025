@@ -21,8 +21,8 @@ export default function GamePage() {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    if (session) {
-      getGames(session.user).then((res) => {
+    if (session && session.user && session.user.email) {
+      getGames(session.user.email).then((res) => {
         setGames(res ?? []);
         setLoading(false);
       });
